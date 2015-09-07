@@ -5,12 +5,12 @@
  */
 'use strict';
 
-function makeNewRobot(id, imageURL){
-  var robotEl = makeNewRobotBody(id, imageURL);
+function makeNewRobot(imageURL){
+  var robotEl = makeNewRobotBody(imageURL);
   return new Robot(robotEl);
 }
 
-function makeNewRobotBody(id, imageURL){
+function makeNewRobotBody(imageURL){
   var robotBody = document.createElement('div');
   var robotImage = document.createElement('img');
   robotBody.classList.add('robot');
