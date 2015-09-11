@@ -5,6 +5,7 @@
   "main": "hs-fall-2015/index.html",
   "scripts": {
     "postinstall": "git remote add utils git@github.com:codeparkhouston/hs-utils.git; git remote add lion git@github.com:codeparkhouston/code-lion.git; git remote add lessons git@github.com:codeparkhouston/hs-fall-2015.git; git fetch --all; git subtree add --prefix=hs-utils utils/gh-pages; git subtree add --prefix=code-lion lion/gh-pages; git subtree add --prefix=hs-fall-2015 lessons/gh-pages;",
+    "prestart": "git pull -s subtree utils gh-pages; git pull -s subtree lion gh-pages; git pull -s subtree lessons gh-pages;",
     "start": "http-server -p 8000"
   },
   "author": "",
