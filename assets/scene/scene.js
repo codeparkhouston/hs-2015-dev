@@ -14,9 +14,11 @@ function Scene(sceneElement){
   var scene = {};
   var maze;
 
-  sceneMethods.addMaze = addMaze;
-  sceneMethods.clearMaze = clearMaze;
-  sceneMethods.setMaze = setMaze;
+  if (typeof Maze === 'function'){
+    sceneMethods.addMaze = addMaze;
+    sceneMethods.clearMaze = clearMaze;
+    sceneMethods.setMaze = setMaze;
+  }
 
   setBody(sceneElement);
   listenToRobots();

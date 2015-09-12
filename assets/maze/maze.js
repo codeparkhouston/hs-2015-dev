@@ -1,5 +1,7 @@
 function Maze(width, height){
-  var mazeBox = document.getElementById('maze');
+  var mazeBox = document.createElement('div');
+  mazeBox.id = 'maze';
+  document.body.appendChild(mazeBox);
 
   this.width = width;
   this.height = height;
