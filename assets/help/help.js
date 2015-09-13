@@ -3,30 +3,14 @@ function setupHelp(){
   var justEdits = document.querySelectorAll('[contenteditable]');
 
   _.each(justEdits, function(editElement){
-    editElement.onclick = function(clickEvent){
-      clickEvent.stopPropagation();
-    }
-    editElement.onfocus = function(focusEvent){
-      var focusedElement = this;
-      requestAnimationFrame(function() {
-        selectElementContents(focusedElement);
-      });
-    }
-
-    editElement.onkeydown = function(keyEvent){
-      if(keyEvent.keyCode === 13){
-        window.editElement = editElement;
-        keyEvent.preventDefault();
-        runCode(this.closest('code'));
-      }
-    }
+    editElement.onclick = stopEvent;
+    editElement.onfocus = selectOnFocus;
+    editElement.onblur = deselect;
+    editElement.onkeydown = runCodeOnEnter;
   });
 
   _.each(canRuns, function(codeElement){
-    codeElement.onclick = function(clickEvent){
-      clickEvent.preventDefault();
-      runCode(this);
-    }
+    codeElement.onclick = runCodeOnClick;
   });
 
 
@@ -36,12 +20,42 @@ function setupHelp(){
     console.log(eval(code));
   }
 
+  function runCodeOnClick(clickEvent){
+    clickEvent.preventDefault();
+    runCode(this);
+  }
+
+  function runCodeOnEnter(keyEvent){
+    var linker;
+    if(keyEvent.keyCode === 13){
+      keyEvent.preventDefault();
+      linker = this.closest('a');
+      linker.focus();
+      runCode(linker);
+    }
+  }
+
+  function stopEvent(clickEvent){
+    clickEvent.stopPropagation();
+  }
+
+  function selectOnFocus(focusEvent){
+    var focusedElement = this;
+    requestAnimationFrame(function() {
+      selectElementContents(focusedElement);
+    });
+  }
+
   function selectElementContents(element) {
     var range = document.createRange();
     range.selectNodeContents(element);
     var selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
+  }
+
+  function deselect() {
+    window.getSelection().removeAllRanges();
   }
 }
 
