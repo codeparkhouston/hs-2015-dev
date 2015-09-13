@@ -50,8 +50,10 @@ function Scene(sceneElement){
     if(isURL(background)){
       backgroundCSS = 'url(' + backgroundCSS + ')';
       scene.element.style.backgroundImage = backgroundCSS;
+      scene.element.style.backgroundColor = null;
     } else {
-      scene.element.style.background = backgroundCSS;
+      scene.element.style.backgroundColor = backgroundCSS;
+      scene.element.style.backgroundImage = null;
     }
 
     return 'Scene set to ' + background;
