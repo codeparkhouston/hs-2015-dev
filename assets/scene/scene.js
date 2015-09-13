@@ -20,6 +20,8 @@ function Scene(sceneElement){
     sceneMethods.setMaze = setMaze;
   }
 
+  sceneMethods.change = change;
+
   setBody(sceneElement);
   listenToRobots();
 
@@ -41,6 +43,18 @@ function Scene(sceneElement){
 
   function toggleRecordingMode(){
     scene.element.parentNode.classList.toggle('record-mode');
+  }
+
+  function change(background){
+    var backgroundCSS = background;
+    if(isURL(background)){
+      backgroundCSS = 'url(' + backgroundCSS + ')';
+      scene.element.style.backgroundImage = backgroundCSS;
+    } else {
+      scene.element.style.background = backgroundCSS;
+    }
+
+    return 'Scene set to ' + background;
   }
 
   function addMaze(){
@@ -140,4 +154,9 @@ function Scene(sceneElement){
       }
     }
   }
+}
+
+function isURL(string){
+  var isURLRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  return isURLRegex.test(string);
 }

@@ -30,3 +30,7 @@ body {
 .record-mode .robot::after {
   color: #333;
 }
+
+pre code {
+  font-size: 1.25em;
+}

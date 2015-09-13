@@ -4,6 +4,7 @@ function setupHelp(){
 
   _.each(justEdits, function(editElement){
     editElement.onclick = function(clickEvent){
+      document.execCommand('selectAll',false,null);
       clickEvent.stopPropagation();
     }
   });

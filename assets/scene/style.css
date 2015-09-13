@@ -2,9 +2,10 @@
   position: relative;
   height: 100%;
   width: 60%;
+  background-size: cover;
 
-  -webkit-transition: width 100ms ease-in-out;
-  transition: width 100ms ease-in-out;
+  -webkit-transition: background 100ms ease-in-out, width 100ms ease-in-out;
+  transition: background 100ms ease-in-out, width 100ms ease-in-out;
 }
 
 #scene::before {

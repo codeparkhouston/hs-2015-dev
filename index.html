@@ -9,8 +9,6 @@
   <link rel="stylesheet" type="text/css" href="./assets/scene/style.css">
   <link rel="stylesheet" type="text/css" href="./assets/robot/style.css">
 
-  <link rel="stylesheet" type="text/css" href="./assets/help/style.css">
-
   <link rel="stylesheet" type="text/css" href="./assets/main.css">
 </head>
 <body>
@@ -24,64 +22,70 @@
 
 
   <div class="instructions help">
+    <h2>Change the scene!</h2>
+    <div class="list-group">
+      <a href="#" class="list-group-item can-run">
+        <pre class=" language-javascript"><code class=" language-javascript" data-manual-highlight='true'>scene<span class="token punctuation">.</span><span class="token function">change</span><span class="token punctuation">(</span><span class="token string">"<span contenteditable>https://images.unsplash.com/photo-1438216983993-cdcd7dea84ce?q=80&fm=jpg&s=4141165d8e8eed56b8d9012740c4b503</span>"</span><span class="token punctuation">)</span></code></pre>
+      </a>
+    </div>
     <h2>Get information about the robot!</h2>
     <div class="list-group">
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.getElementPosition()</code></pre>
+        <pre><code class="language-javascript">robot.getElementPosition()</code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.getSize()</code></pre>
+        <pre><code class="language-javascript">robot.getSize()</code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.getElement()</code></pre>
+        <pre><code class="language-javascript">robot.getElement()</code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.getImage()</code></pre>
+        <pre><code class="language-javascript">robot.getImage()</code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.getOrientation()</code></pre>
+        <pre><code class="language-javascript">robot.getOrientation()</code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.getPosition()</code></pre>
+        <pre><code class="language-javascript">robot.getPosition()</code></pre>
       </a>
     </div>
     <h2>Change things about the robot!</h2>
     <div class="list-group">
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.moveRandom()</code></pre>
+        <pre><code class="language-javascript">robot.moveRandom()</code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.flip()</code></pre>
+        <pre><code class="language-javascript">robot.flip()</code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.name("<span contenteditable>Leo</span>")</code></pre>
+        <pre class=" language-javascript"><code class=" language-javascript" data-manual-highlight='true'>robot<span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token string">"<span contenteditable>Snoop</span>"</span><span class="token punctuation">)</span></code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.move("<span contenteditable>left</span>", <span contenteditable>300</span>)</code></pre>
+        <pre class=" language-javascript"><code class=" language-javascript" data-manual-highlight='true'>robot<span class="token punctuation">.</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token string">"<span contenteditable>left</span>"</span><span class="token punctuation">,</span> <span contenteditable class="token number">300</span><span class="token punctuation">)</span></code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.moveTo(<span contenteditable>100</span>, <span contenteditable>300</span>)</code></pre>
+        <pre class=" language-javascript"><code class=" language-javascript" data-manual-highlight='true'>robot<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span contenteditable class="token number">100</span><span class="token punctuation">,</span> <span contenteditable class="token number">300</span><span class="token punctuation">)</span></code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.change("<span contenteditable>http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png</span>")</code></pre>
+        <pre class=" language-javascript"><code class=" language-javascript" data-manual-highlight='true'>robot<span class="token punctuation">.</span><span class="token function">change</span><span class="token punctuation">(</span><span class="token string">"<span contenteditable>http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png</span>"</span><span class="token punctuation">)</span></code></pre>
       </a>
       <a href="#" class="list-group-item can-run">
-        <pre><code>robot.reset()</code></pre>
+        <pre><code class="language-javascript">robot.reset()</code></pre>
       </a>
     </div>
-    <h2>Make a brand new robot!</h2>
+    <h2>Make a new robot!</h2>
     <div class="list-group">
       <a href="#" class="list-group-item can-run">
-        <pre><code>var newRobot = makeNewRobot("<span contenteditable>http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png</span>")</code></pre>
+        <pre class="language-javascript"><code class="language-javascript" data-manual-highlight='true'><span class="token keyword">var</span> newRobot <span class="token operator">=</span> <span class="token function">makeNewRobot</span><span class="token punctuation">(</span><span class="token string">"<span contenteditable>http://www.clipartlord.com/wp-content/uploads/2014/04/robot20.png</span>"</span><span class="token punctuation">)</span></code></pre>
       </a>
     </div>
 
   </div>
 
+  <script type="text/javascript" src="../hs-utils/assets/prism.js" data-manual></script>
   <script type="text/javascript" src="../hs-utils/assets/lib.js"></script>
   <script type="text/javascript" src="../hs-utils/assets/error-handling.js"></script>
 
-  <script type="text/javascript" src="./assets/maze/maze.js"></script>
   <script type="text/javascript" src="./assets/animator/animator.js"></script>
   <script type="text/javascript" src="./assets/animator/tween.js"></script>
   <script type="text/javascript" src="./assets/scene/scene.js"></script>
