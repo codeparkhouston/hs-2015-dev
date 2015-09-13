@@ -74,6 +74,7 @@ function setupHelp(){
   }
 
   function selectOnFocus(focusEvent){
+    keepHelpOpen();
     var focusedElement = this;
     requestAnimationFrame(function() {
       selectElementContents(focusedElement);
