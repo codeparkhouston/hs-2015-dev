@@ -4,8 +4,8 @@
   width: 60%;
   background-size: cover;
 
-  -webkit-transition: background 100ms ease-in-out, width 100ms ease-in-out;
-  transition: background 100ms ease-in-out, width 100ms ease-in-out;
+  -webkit-transition: background-color 100ms ease-in-out, background-image 100ms ease-in-out, width 100ms ease-in-out;
+  transition: background-color 100ms ease-in-out, background-image 100ms ease-in-out, width 100ms ease-in-out;
 }
 
 #scene::before {
@@ -24,4 +24,25 @@
   bottom: 0;
   right: 2px;
   opacity: 0.25;
+}
+
+.instructions.help {
+  right: -39%;
+}
+
+.instructions.help:hover, .instructions.help.active {
+  right: 0;
+}
+
+.instructions.help:hover .close, .instructions.help.active .close {
+  position: fixed;
+  right: 0;
+}
+
+.instructions.help ~ #scene{
+  width: 99%;
+}
+
+.instructions.help:hover ~ #scene, .instructions.help.active ~ #scene{
+  width: 60%;
 }

@@ -1,6 +1,9 @@
 function setupHelp(){
+  var helper = document.getElementsByClassName('help')[0];
+  var closer = document.getElementsByClassName('close')[0];
   var canRuns = document.getElementsByClassName('can-run');
   var justEdits = document.querySelectorAll('[contenteditable]');
+  console.log('Type "robot." here to get started!');
 
   _.each(justEdits, function(editElement){
     editElement.onclick = stopEvent;
@@ -13,11 +16,36 @@ function setupHelp(){
     codeElement.onclick = runCodeOnClick;
   });
 
+  closer.onclick = close;
+
+
+  function close(clickEvent){
+    clickEvent.preventDefault();
+    helper.classList.remove('active');
+  }
+
 
   function runCode(element){
+    keepHelpOpen();
     var code = element.innerText;
-    code = code.replace('var ', 'window.')
-    console.log(eval(code));
+    var message = '', consoleArgs = [];
+    code = code.replace('var ', 'window.');
+    message = eval(code);
+
+    if(typeof message === 'string'){
+      message = message.split(': ');
+
+      if(message.length > 1) {
+        message[1] = ': %c' + message[1];
+        consoleArgs.push('background: #272822; color: rgba(95, 204, 95, 1); padding: 2px;');
+      }
+
+      message = message.join('');
+      consoleArgs.unshift(message);
+    } else {
+      consoleArgs.unshift(message);
+    }
+    console.log.apply(console, consoleArgs);
   }
 
   function runCodeOnClick(clickEvent){
@@ -32,6 +60,12 @@ function setupHelp(){
       linker = this.closest('a');
       linker.focus();
       runCode(linker);
+    }
+  }
+
+  function keepHelpOpen(){
+    if(!helper.classList.contains('active')) {
+      helper.classList.add('active');
     }
   }
 

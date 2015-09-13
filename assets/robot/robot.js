@@ -42,6 +42,9 @@ function Robot(robotElement) {
   robotCan.reset = reset;
   robotCan.name = name;
   robotCan.flip = flip;
+  robotCan.leave = leave;
+  robotCan.sizeTo = sizeTo;
+  robotCan.comeBack = comeBack;
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -86,6 +89,7 @@ function Robot(robotElement) {
     // Force an image reload to make `setSizeAndPosition` run.
     robot.img.src = robot.img.src;
     robot.name = '';
+    robot.setWidth = 200;
   }
 
   function setScene(sceneElement){
@@ -94,6 +98,18 @@ function Robot(robotElement) {
     window.onresize = _.throttle(setSceneSize, 100);
 
     scene.element.addEventListener('mazed', reset);
+  }
+
+  function sizeTo(width){
+    if(typeof width === 'number'){
+      robot.setWidth = width;
+    } else {
+      robot.setWidth = robot.element.getBoundingClientRect().width;
+    }
+    robot.element.style.width = robot.setWidth + 'px';
+    setTimeout(setSizeAndPosition, 150);
+
+    return ' sized changed to: ' + robot.setWidth + 'px';
   }
 
   function setSizeAndPosition(){
@@ -117,6 +133,8 @@ function Robot(robotElement) {
   function setDefaults(){
     var orientation = getOrientation();
     robot.defaults = {}
+    robot.defaults.name = robot.name;
+    robot.defaults.setWidth = robot.setWidth;
     robot.defaults.src = robot.img.getAttribute('src');
     robot.defaults.position = getElementPosition();
 
@@ -168,7 +186,7 @@ function Robot(robotElement) {
     }
 
     robot.position.coordinates = {x: x, y: y};
-    return robot.name + ' moving to ' + x + ', ' + y;
+    return robot.name + ' moving to: ' + x + 'px, ' + y + 'px';
   }
 
   function move(direction, distance){
@@ -241,7 +259,7 @@ function Robot(robotElement) {
 
     robot.img.src = imageURL;
 
-    return 'Robot image set to ' + imageURL;
+    return 'Robot image set to: ' + imageURL;
   }
 
   function reset() {
@@ -254,9 +272,21 @@ function Robot(robotElement) {
       robot.img.onload = onload;
     };
 
+    sizeTo(robot.defaults.setWidth);
     change(robot.defaults.src);
+    name(robot.defaults.name);
 
     return 'Robot reset to original position and image';
+  }
+
+  function leave() {
+    sizeTo(0);
+    return 'Goodbye ' + robot.name + '!';
+  }
+
+  function comeBack() {
+    sizeTo(robot.defaults.setWidth);
+    return 'Hello ' + robot.name + '!';
   }
 
   function name(robotName) {
@@ -267,7 +297,7 @@ function Robot(robotElement) {
     robot.name = robotName;
     robot.element.dataset.name = robotName;
 
-    return 'Robot got named ' + robotName;
+    return 'Robot got named: ' + robotName;
   }
 
   function flip(){
