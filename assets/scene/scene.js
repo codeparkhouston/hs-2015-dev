@@ -21,6 +21,7 @@ function Scene(sceneElement){
   }
 
   sceneMethods.change = change;
+  sceneMethods.reset = reset;
 
   setBody(sceneElement);
   listenToRobots();
@@ -45,18 +46,34 @@ function Scene(sceneElement){
     scene.element.parentNode.classList.toggle('record-mode');
   }
 
-  function change(background){
+  function change(background, pattern){
     var backgroundCSS = background;
+    pattern = pattern || false;
+
     if(isURL(background)){
       backgroundCSS = 'url(' + backgroundCSS + ')';
       scene.element.style.backgroundImage = backgroundCSS;
       scene.element.style.backgroundColor = null;
+      scene.element.style.backgroundSize = 'cover';
+      if(pattern){
+        scene.element.style.backgroundSize = 'auto';
+      }
     } else {
       scene.element.style.backgroundColor = backgroundCSS;
       scene.element.style.backgroundImage = null;
     }
 
-    return 'Scene set to ' + background;
+    return 'Scene set to: ' + background;
+  }
+
+  function reset(){
+    change('transparent');
+
+    if(typeof maze === 'object'){
+      clearMaze();
+    }
+
+    return 'Scene reset';
   }
 
   function addMaze(){
