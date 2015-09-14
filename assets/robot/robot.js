@@ -24,27 +24,27 @@ function makeNewRobotBody(imageURL){
 
 function Robot(robotElement) {
   /**
-   * `robotCan` will hold onto what the robot can do.
+   * `robotMethods` will hold onto what the robot can do.
    */
-  var robotCan = Object.create(null);
+  var robotMethods = Object.create(null);
 
-  robotCan.getElementPosition = getElementPosition;
-  robotCan.getSize = getSize;
-  robotCan.getElement = getElement;
-  robotCan.getImage = getImage;
-  robotCan.getOrientation = getOrientation;
-  robotCan.getPosition = getPosition;
+  robotMethods.getElementPosition = getElementPosition;
+  robotMethods.getSize = getSize;
+  robotMethods.getElement = getElement;
+  robotMethods.getImage = getImage;
+  robotMethods.getOrientation = getOrientation;
+  robotMethods.getPosition = getPosition;
 
-  robotCan.moveTo = moveTo;
-  robotCan.move = move;
-  robotCan.moveRandom = moveRandom;
-  robotCan.change = change;
-  robotCan.reset = reset;
-  robotCan.name = name;
-  robotCan.flip = flip;
-  robotCan.leave = leave;
-  robotCan.sizeTo = sizeTo;
-  robotCan.comeBack = comeBack;
+  robotMethods.moveTo = moveTo;
+  robotMethods.move = move;
+  robotMethods.moveRandom = moveRandom;
+  robotMethods.change = change;
+  robotMethods.reset = reset;
+  robotMethods.name = name;
+  robotMethods.flip = flip;
+  robotMethods.leave = leave;
+  robotMethods.sizeTo = sizeTo;
+  robotMethods.comeBack = comeBack;
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -60,9 +60,9 @@ function Robot(robotElement) {
   setScene(robotElement.parentElement);
 
   /**
-   * Give `robotCan` out for the coder to use elsewhere, as in the `console`.
+   * Give `robotMethods` out for the coder to use elsewhere, as in the `console`.
    */
-  return robotCan;
+  return robotMethods;
 
 
   /**
@@ -117,7 +117,7 @@ function Robot(robotElement) {
     if(robot.position){
       robot.position.unset();
     }
-    robot.position = new Position(robotCan);
+    robot.position = new Position(robotMethods);
 
     if(!robot.defaults){    
       setDefaults();

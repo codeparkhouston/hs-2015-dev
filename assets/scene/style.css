@@ -27,22 +27,22 @@
 }
 
 .instructions.help {
-  right: -39%;
+  right: -40%;
 }
 
-.instructions.help:hover, .instructions.help.active {
+.instructions.help.active {
   right: 0;
 }
 
-.instructions.help:hover .close, .instructions.help.active .close {
+.instructions.help.active .close {
   position: fixed;
   right: 0;
 }
 
 .instructions.help ~ #scene{
-  width: 99%;
+  width: 100%;
 }
 
-.instructions.help:hover ~ #scene, .instructions.help.active ~ #scene{
+.instructions.help.active ~ #scene{
   width: 60%;
 }
