@@ -5,6 +5,6 @@ var scene = new Scene(sceneElement);
 var robot = new Robot(robotElement);
 var animator = new Animator();
 
-animator.startLoop();
+var helper = new Helper();
 
-setupHelp();
+animator.startLoop();

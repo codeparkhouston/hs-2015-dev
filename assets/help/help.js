@@ -1,32 +1,70 @@
-function setupHelp(){
+function Helper(allowRun){
+  allowRun = allowRun || false;
   var helper = document.getElementsByClassName('help')[0];
   var closer = document.getElementsByClassName('close')[0];
   var canRuns = document.getElementsByClassName('can-run');
   var justEdits = document.querySelectorAll('[contenteditable]');
+
+  var helperMethods = Object.create(null);
+
+  helperMethods.open = open;
+  helperMethods.close = close;
+
+  if(allowRun) {
+    helperMethods.runner = runner;
+    helperMethods.reset = init;
+  }
+
+  init();
+
   console.log('Type "robot." here to get started!');
+  return helperMethods;
 
-  _.each(justEdits, function(editElement){
-    editElement.onclick = stopEvent;
-    editElement.onfocus = selectOnFocus;
-    editElement.onblur = deselect;
-    editElement.onkeydown = runCodeOnEnter;
-  });
+  function init(){
+    _.each(justEdits, function(editElement){
+      editElement.onclick = stopEvent;
+      editElement.onfocus = selectOnFocus;
+      editElement.onblur = deselect;
+      editElement.onkeydown = preventEvent;
+    });
 
-  _.each(canRuns, function(codeElement){
-    codeElement.onclick = runCodeOnClick;
-  });
+    _.each(canRuns, function(codeElement){
+      codeElement.onclick = selectElementContents.bind(null, codeElement);
+    });
 
-  closer.onclick = close;
-
-
-  function close(clickEvent){
-    clickEvent.preventDefault();
-    helper.classList.remove('active');
+    return 'Helper started.'
   }
 
 
+  function runner(){
+    _.each(justEdits, function(editElement){
+      editElement.onclick = stopEvent;
+      editElement.onfocus = selectOnFocus;
+      editElement.onblur = deselect;
+      editElement.onkeydown = runCodeOnEnter;
+    });
+
+    _.each(canRuns, function(codeElement){
+      codeElement.onclick = runCodeOnClick;
+    });
+
+    return 'Click on code to run.';
+  }
+
+
+  function close(){
+    helper.classList.remove('active');
+    return 'Help closed.';
+  }
+
+  function open(){
+    if(!helper.classList.contains('active')) {
+      helper.classList.add('active');
+    }
+    return 'Show the help.'
+  }
+
   function runCode(element){
-    keepHelpOpen();
     var code = element.innerText;
     var message = '', consoleArgs = [];
     code = code.replace('var ', 'window.');
@@ -49,32 +87,22 @@ function setupHelp(){
   }
 
   function runCodeOnClick(clickEvent){
-    clickEvent.preventDefault();
+    preventEvent(clickEvent);
     runCode(this);
   }
 
   function runCodeOnEnter(keyEvent){
     var linker;
     if(keyEvent.keyCode === 13){
-      keyEvent.preventDefault();
+      preventEvent(keyEvent);
+
       linker = this.closest('a');
       linker.focus();
       runCode(linker);
     }
   }
 
-  function keepHelpOpen(){
-    if(!helper.classList.contains('active')) {
-      helper.classList.add('active');
-    }
-  }
-
-  function stopEvent(clickEvent){
-    clickEvent.stopPropagation();
-  }
-
   function selectOnFocus(focusEvent){
-    keepHelpOpen();
     var focusedElement = this;
     requestAnimationFrame(function() {
       selectElementContents(focusedElement);
@@ -91,6 +119,14 @@ function setupHelp(){
 
   function deselect() {
     window.getSelection().removeAllRanges();
+  }
+
+  function preventEvent(clickEvent){
+    clickEvent.preventDefault();
+  }
+
+  function stopEvent(clickEvent){
+    clickEvent.stopPropagation();
   }
 }
 
