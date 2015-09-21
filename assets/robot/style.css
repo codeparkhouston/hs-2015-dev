@@ -32,14 +32,14 @@
 }
 
 
-.maze .robot img {
+/*.maze .robot img {
   width: 50px;
-}
+}*/
 
-.maze .trail img {
+/*.maze .trail img {
   width: 30px;
   margin-top: 20px;
-}
+}*/
 
 .robot.flip, .trail  {
   transform: scaleX(-1);

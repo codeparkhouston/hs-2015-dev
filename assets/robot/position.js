@@ -164,7 +164,7 @@ function Position(body) {
   }
 
   function orient(){
-    this.angle = calculateAngle(previous, position);
+    // this.angle = calculateAngle(previous, position);
     this.direction = calculateDirection(previous, position);
   }
 
