@@ -97,7 +97,11 @@ function Robot(robotElement) {
     setSceneSize();
     window.onresize = _.throttle(setSceneSize, 100);
 
-    scene.element.addEventListener('mazed', reset);
+    scene.element.addEventListener('mazed', setIntoMaze);
+  }
+
+  function setIntoMaze(){
+    sizeTo(50);
   }
 
   function sizeTo(width){

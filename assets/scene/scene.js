@@ -81,6 +81,7 @@ function Scene(sceneElement){
     var changeEvent = new CustomEvent('mazed');
     var mazeSize, sceneSize;
 
+    scene.element.dispatchEvent(changeEvent);
     scene.element.classList.add('maze');
     sceneSize = scene.element.getBoundingClientRect();
 
@@ -93,7 +94,6 @@ function Scene(sceneElement){
 
     setTimeout(function(){
       mazeBounds = maze.getBounds();
-      scene.element.dispatchEvent(changeEvent);
     }, 1000);
   }
 
