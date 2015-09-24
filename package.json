@@ -4,8 +4,8 @@
   "description": "",
   "main": "hs-fall-2015/index.html",
   "scripts": {
-    "postinstall": "git config --global core.editor 'vim'; git remote add utils git@github.com:codeparkhouston/hs-utils.git; git remote add lion git@github.com:codeparkhouston/code-lion.git; git remote add lessons git@github.com:codeparkhouston/hs-fall-2015.git; git fetch --all",
-    "update": "git pull -s subtree utils gh-pages; git pull -s subtree lion gh-pages; git pull -s subtree lessons gh-pages;"
+    "postinstall": "git config --global core.editor 'vim'; git remote add upstream git@github.com:codeparkhouston/fall-2015.git; git fetch --all",
+    "update": "git pull upstream master"
   },
   "author": "",
   "license": "ISC"
