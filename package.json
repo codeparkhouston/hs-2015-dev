@@ -5,7 +5,8 @@
   "main": "hs-fall-2015/index.html",
   "scripts": {
     "postinstall": "git config --global core.editor 'vim'; git remote add utils git@github.com:codeparkhouston/hs-utils.git; git remote add lion git@github.com:codeparkhouston/code-lion.git; git remote add lessons git@github.com:codeparkhouston/hs-fall-2015.git; git fetch --all",
-    "update": "git pull -s subtree utils gh-pages; git pull -s subtree lion gh-pages; git pull -s subtree lessons gh-pages;"
+    "update": "git pull -s subtree utils gh-pages; git pull -s subtree lion gh-pages; git pull -s subtree lessons gh-pages;",
+    "publish-to-class": "git checkout publisher; git merge --no-ff master; git checkout --ours package.json; git push publish publisher:master"
   },
   "author": "",
   "license": "ISC"
