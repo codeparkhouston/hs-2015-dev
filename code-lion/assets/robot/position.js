@@ -4,9 +4,9 @@ function Position(body) {
   var bodyImage = body.getImage();
   var wait = 0;
   var waitToDo = _.partial(_.debounce, _, wait);
-  var position = body.getPosition();
+  var position = body.getElementPosition();
   position.angle = 0;
-  position.scale = 1;
+  position.direction = 1;
   var previous = _.clone(position);
   var destinations = [];
   var destinationsHistory = [];
@@ -60,11 +60,11 @@ function Position(body) {
       emitChange('stepChange');
     },
 
-    get scale() {
-      return position.scale;
+    get direction() {
+      return position.direction;
     },
-    set scale(value) {
-      position.scale = value;
+    set direction(value) {
+      position.direction = value;
       emitChange('stepMove', positionModel.getStep());
     },
 
@@ -87,9 +87,8 @@ function Position(body) {
       x: position.stepX,
       y: position.stepY,
       angle: position.angle,
-      scale: position.scale
-    }
-
+      direction: position.direction
+    };
     return step;
   }
 
@@ -117,11 +116,11 @@ function Position(body) {
 
   function emitChange(changeType, changedProperties){
     var changeEventData = {
-      position: body.getPosition(),
+      position: body.getElementPosition(),
       box: bodyElement.getBoundingClientRect()
     };
 
-    changeEventData = _.assign(changeEventData, changedProperties)
+    changeEventData = _.extend({}, changeEventData, changedProperties)
 
     var changeEvent = new CustomEvent(changeType, {detail: changeEventData});
     bodyElement.dispatchEvent(changeEvent);
@@ -165,8 +164,8 @@ function Position(body) {
   }
 
   function orient(){
-    this.angle = calculateAngle(previous, position);
-    this.scale = calculateScale(previous, position);
+    // this.angle = calculateAngle(previous, position);
+    this.direction = calculateDirection(previous, position);
   }
 
   function getDirection(distance) {
@@ -187,8 +186,8 @@ function Position(body) {
     if(_.isNumber(toPosition.angle)) {
       transform += 'rotate(' + toPosition.angle + 'deg)';
     }
-    if(_.isNumber(toPosition.scale) && toPosition.scale !== 0) {
-      transform += ' scaleX(' + toPosition.scale + ')';
+    if(_.isNumber(toPosition.direction) && toPosition.direction !== 0) {
+      transform += ' scaleX(' + toPosition.direction + ')';
     }
     return transform;
   }
@@ -204,7 +203,7 @@ function Position(body) {
     return Math.atan(yDist/xDist) / Math.PI * 180;
   }
 
-  function calculateScale(previous, destination) {
+  function calculateDirection(previous, destination) {
     var xDist = destination.x - previous.x;
 
     return getDirection(xDist);

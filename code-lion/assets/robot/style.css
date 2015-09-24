@@ -11,7 +11,11 @@
 }
 
 .robot {
+  width: 200px;
   z-index: 3;
+
+  -webkit-transition: width 100ms ease-in-out;
+  transition: width 100ms ease-in-out;
 }
 
 .robot, .trail {
@@ -19,23 +23,23 @@
 }
 
 .robot img {
-  width: 200px;
+  width: 100%;
 }
 
 .trail img {
-  width: 100px;
-  margin-top: 50px;
+  width: 50%;
+  margin-top: 25%;
 }
 
 
-.maze .robot img {
+/*.maze .robot img {
   width: 50px;
-}
+}*/
 
-.maze .trail img {
+/*.maze .trail img {
   width: 30px;
   margin-top: 20px;
-}
+}*/
 
 .robot.flip, .trail  {
   transform: scaleX(-1);

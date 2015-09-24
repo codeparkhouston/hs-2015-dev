@@ -14,9 +14,14 @@ function Scene(sceneElement){
   var scene = {};
   var maze;
 
-  sceneMethods.addMaze = addMaze;
-  sceneMethods.clearMaze = clearMaze;
-  sceneMethods.setMaze = setMaze;
+  if (typeof Maze === 'function'){
+    sceneMethods.addMaze = addMaze;
+    sceneMethods.clearMaze = clearMaze;
+    sceneMethods.setMaze = setMaze;
+  }
+
+  sceneMethods.change = change;
+  sceneMethods.reset = reset;
 
   setBody(sceneElement);
   listenToRobots();
@@ -41,11 +46,42 @@ function Scene(sceneElement){
     scene.element.parentNode.classList.toggle('record-mode');
   }
 
+  function change(background, pattern){
+    var backgroundCSS = background;
+    pattern = pattern || false;
+
+    if(isURL(background)){
+      backgroundCSS = 'url(' + backgroundCSS + ')';
+      scene.element.style.backgroundImage = backgroundCSS;
+      scene.element.style.backgroundColor = null;
+      scene.element.style.backgroundSize = 'cover';
+      if(pattern){
+        scene.element.style.backgroundSize = 'auto';
+      }
+    } else {
+      scene.element.style.backgroundColor = backgroundCSS;
+      scene.element.style.backgroundImage = null;
+    }
+
+    return 'Scene set to: ' + background;
+  }
+
+  function reset(){
+    change('transparent');
+
+    if(typeof maze === 'object'){
+      clearMaze();
+    }
+
+    return 'Scene reset';
+  }
+
   function addMaze(){
     var blockSize = 100;
     var changeEvent = new CustomEvent('mazed');
     var mazeSize, sceneSize;
 
+    scene.element.dispatchEvent(changeEvent);
     scene.element.classList.add('maze');
     sceneSize = scene.element.getBoundingClientRect();
 
@@ -58,7 +94,6 @@ function Scene(sceneElement){
 
     setTimeout(function(){
       mazeBounds = maze.getBounds();
-      scene.element.dispatchEvent(changeEvent);
     }, 1000);
   }
 
@@ -138,4 +173,9 @@ function Scene(sceneElement){
       }
     }
   }
+}
+
+function isURL(string){
+  var isURLRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  return isURLRegex.test(string);
 }

@@ -27,8 +27,14 @@ function Robot(robotElement) {
    * `robotMethods` will hold onto what the robot can do.
    */
   var robotMethods = Object.create(null);
-  robotMethods.getPosition = getPosition;
+
+  robotMethods.getElementPosition = getElementPosition;
   robotMethods.getSize = getSize;
+  robotMethods.getElement = getElement;
+  robotMethods.getImage = getImage;
+  robotMethods.getOrientation = getOrientation;
+  robotMethods.getPosition = getPosition;
+
   robotMethods.moveTo = moveTo;
   robotMethods.move = move;
   robotMethods.moveRandom = moveRandom;
@@ -36,12 +42,9 @@ function Robot(robotElement) {
   robotMethods.reset = reset;
   robotMethods.name = name;
   robotMethods.flip = flip;
-  robotMethods.getElement = getElement;
-  robotMethods.getImage = getImage;
-
-  if(typeof solve !== 'undefined'){
-    robotMethods.solve = solve;
-  }
+  robotMethods.leave = leave;
+  robotMethods.sizeTo = sizeTo;
+  robotMethods.comeBack = comeBack;
 
   /**
    * We are going to use `robot` to hold onto some private information about our robot.
@@ -57,7 +60,7 @@ function Robot(robotElement) {
   setScene(robotElement.parentElement);
 
   /**
-   * Give `robotMethods` out to the coder use elsewhere, as in the `console`.
+   * Give `robotMethods` out for the coder to use elsewhere, as in the `console`.
    */
   return robotMethods;
 
@@ -86,6 +89,7 @@ function Robot(robotElement) {
     // Force an image reload to make `setSizeAndPosition` run.
     robot.img.src = robot.img.src;
     robot.name = '';
+    robot.setWidth = 200;
   }
 
   function setScene(sceneElement){
@@ -93,7 +97,23 @@ function Robot(robotElement) {
     setSceneSize();
     window.onresize = _.throttle(setSceneSize, 100);
 
-    scene.element.addEventListener('mazed', reset);
+    scene.element.addEventListener('mazed', setIntoMaze);
+  }
+
+  function setIntoMaze(){
+    sizeTo(50);
+  }
+
+  function sizeTo(width){
+    if(typeof width === 'number'){
+      robot.setWidth = width;
+    } else {
+      robot.setWidth = robot.element.getBoundingClientRect().width;
+    }
+    robot.element.style.width = robot.setWidth + 'px';
+    setTimeout(setSizeAndPosition, 150);
+
+    return ' sized changed to: ' + robot.setWidth + 'px';
   }
 
   function setSizeAndPosition(){
@@ -115,9 +135,15 @@ function Robot(robotElement) {
    * We can use `robot.defaults` later to be able to reset the robot to it's original state.
    */
   function setDefaults(){
+    var orientation = getOrientation();
     robot.defaults = {}
+    robot.defaults.name = robot.name;
+    robot.defaults.setWidth = robot.setWidth;
     robot.defaults.src = robot.img.getAttribute('src');
-    robot.defaults.position = getPosition();
+    robot.defaults.position = getElementPosition();
+
+    robot.defaults.position.direction = orientation.direction;
+    robot.defaults.position.angle = orientation.angle;
   }
 
   function setSceneSize(){
@@ -127,16 +153,23 @@ function Robot(robotElement) {
   }
 
   /**
-   * ## getPosition
+   * ## getElementPosition
    * 
    * Tells us where the robot is.
    * @return {Object} with an x and y for where the robot is.
    */
-  function getPosition(){
+  function getElementPosition(){
     var boundingRectangle = robot.element.getBoundingClientRect();
     return {
       x: boundingRectangle.left + boundingRectangle.width/2,
       y: boundingRectangle.top + boundingRectangle.height/2
+    };
+  }
+
+  function getOrientation(){
+    return {
+      direction: robot.position.direction,
+      angle: robot.position.angle
     };
   }
 
@@ -157,7 +190,7 @@ function Robot(robotElement) {
     }
 
     robot.position.coordinates = {x: x, y: y};
-    return robot.name + ' moving to ' + x + ', ' + y;
+    return robot.name + ' moving to: ' + x + 'px, ' + y + 'px';
   }
 
   function move(direction, distance){
@@ -176,14 +209,14 @@ function Robot(robotElement) {
     return movers[direction](distance);
 
     function moveLeft(distance) {
-      var currentPosition = getPosition();
+      var currentPosition = getElementPosition();
       var newX = currentPosition.x + distance;
 
       return moveTo(newX, currentPosition.y);
     }
 
     function moveDown(distance) {
-      var currentPosition = getPosition();
+      var currentPosition = getElementPosition();
       var newY = currentPosition.y + distance;
 
       return moveTo(currentPosition.x, newY);
@@ -230,18 +263,34 @@ function Robot(robotElement) {
 
     robot.img.src = imageURL;
 
-    return 'Robot image set to ' + imageURL;
+    return 'Robot image set to: ' + imageURL;
   }
 
   function reset() {
-    robot.position.angle = robot.defaults.position.angle;
-    robot.position.scale = robot.defaults.position.scale;
-    robot.position.x = robot.defaults.position.x;
-    robot.position.y = robot.defaults.position.y;
 
+    var onload = robot.img.onload;
+
+    robot.img.onload = function(){
+      onload();
+      moveTo(robot.defaults.position.x, robot.defaults.position.y);
+      robot.img.onload = onload;
+    };
+
+    sizeTo(robot.defaults.setWidth);
     change(robot.defaults.src);
+    name(robot.defaults.name);
 
     return 'Robot reset to original position and image';
+  }
+
+  function leave() {
+    sizeTo(0);
+    return 'Goodbye ' + robot.name + '!';
+  }
+
+  function comeBack() {
+    sizeTo(robot.defaults.setWidth);
+    return 'Hello ' + robot.name + '!';
   }
 
   function name(robotName) {
@@ -252,7 +301,7 @@ function Robot(robotElement) {
     robot.name = robotName;
     robot.element.dataset.name = robotName;
 
-    return 'Robot got named ' + robotName;
+    return 'Robot got named: ' + robotName;
   }
 
   function flip(){
@@ -267,6 +316,10 @@ function Robot(robotElement) {
 
   function getImage(){
     return robot.img;
+  }
+
+  function getPosition(){
+    return robot.position;
   }
 
 }
